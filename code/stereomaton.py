@@ -68,7 +68,7 @@ def text_code(cr, code):
   cr.fill()
   cr.set_source_rgb(1, 0.8, 0)
   cr.set_font_size(35)
-  cr.move_to(125, 80)
+  cr.move_to((480-cr.text_extents(code).width)/2, 80)
   cr.show_text(code)
 
 """Generate code"""
@@ -90,16 +90,21 @@ def draw_buttons(cr, photos=0, active=True):
   cr.rectangle(250, 110, 220, 200)
   cr.stroke()
   cr.set_font_size(35)
-  cr.move_to(50, 200)
-  cr.show_text('Change')
-  cr.move_to(80, 240)
-  cr.show_text('code')
+  txt = 'Change'
+  cr.move_to((220-cr.text_extents(txt).width)/2+10, (200+cr.text_extents(txt).height)/2+110-25)
+  cr.show_text(txt)
+  txt = 'code'
+  cr.move_to((220-cr.text_extents(txt).width)/2+10, (200+3*cr.text_extents(txt).height)/2+110-15)
+  cr.show_text(txt)
   cr.move_to(310, 220)
-  cr.show_text('Photo')
+  txt = 'Photo'
+  cr.move_to((220-cr.text_extents(txt).width)/2+250, (200+cr.text_extents(txt).height)/2+110-5)
+  cr.show_text(txt)
   if photos:
       cr.set_font_size(20)
-      cr.move_to(260, 300)
-      cr.show_text(str(photos))
+      txt = str(photos)
+      cr.move_to((220-cr.text_extents(txt).width)/2+250, 270)
+      cr.show_text(txt)
 
 """Display countdown"""
 def draw_countdown(cr, nb):
@@ -108,12 +113,11 @@ def draw_countdown(cr, nb):
   cr.fill()
   cr.set_source_rgb(1, 0, 0.8)
   cr.set_font_size(160)
-  if nb > 0:
-      cr.move_to(190, 250)
-      cr.show_text(str(nb))
-  else:
-      cr.move_to(150, 250)
-      cr.show_text(':-)')
+  txt = str(nb)
+  if nb <= 0:
+      txt = ':-)'
+  cr.move_to((480-cr.text_extents(txt).width)/2, 250)
+  cr.show_text(txt)
 
 ################################################################################
 
