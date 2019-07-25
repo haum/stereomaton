@@ -72,9 +72,9 @@ def text_code(cr, code):
   cr.show_text(code)
 
 """Generate code"""
-gen_code_phonems = ('BA', 'DE', 'FA', 'KA', 'LI', 'MI', 'NO', 'NU', 'PI', 'PO', 'RI', 'TA', 'VO', 'VU', 'ZO')
+gen_code_phonems = ('BA', 'DE', 'FA', 'KA', 'LE', 'LI', 'MI', 'NO', 'NU', 'PI', 'PO', 'RI', 'TA', 'TE', 'VO', 'VU', 'VE', 'ZO')
 def gen_code():
-  return ''.join(choice(gen_code_phonems) for _ in range(5))
+  return ''.join(choice(gen_code_phonems) for _ in range(4))
 
 """Display buttons"""
 def draw_buttons(cr, photos=0, active=True):
