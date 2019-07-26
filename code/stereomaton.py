@@ -130,12 +130,14 @@ mode = MODE_MENU
 photo_nb=0
 cfb = CairoFB()
 cr = cfb.cr()
-clear(cr)
-text_code_explaination(cr)
 code = gen_code()
-text_code(cr, code)
 raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -dec -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
-draw_buttons(cr)
+
+def init_screen(cr, btn=True):
+    clear(cr)
+    text_code_explaination(cr)
+    text_code(cr, code)
+    draw_buttons(cr, photo_nb, btn)
 
 def photo(code, nb):
     filename = '{}_{:03d}.jpg'.format(code.lower(), nb)
@@ -151,11 +153,13 @@ def photo(code, nb):
     with open(savepath+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
     print('Photo!', filename)
+    subprocess.run(['convert', '-resize', 'x320', '-crop', '50%x100%', savepath+filename, '/tmp/preview.jpg'])
+    subprocess.run('fbi /tmp/preview-0.jpg -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
 
 def click_handler(x, y):
     global mode, photo_nb, code
     if mode == MODE_PHOTO:
-        draw_buttons(cr, photo_nb, False)
+        init_screen(cr, False)
         sleep(2)
         draw_buttons(cr, photo_nb, True)
         mode = MODE_MENU
@@ -175,5 +179,6 @@ def click_handler(x, y):
                 photo(code, photo_nb)
     return True
 
+init_screen(cr)
 cl = ClickListener(click_handler)
 cl.loop()
