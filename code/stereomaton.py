@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os, shutil
+import subprocess, signal
 import cairo
 import evdev
 from random import choice
@@ -132,10 +134,22 @@ clear(cr)
 text_code_explaination(cr)
 code = gen_code()
 text_code(cr, code)
+raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -dec -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
 draw_buttons(cr)
 
 def photo(code, nb):
     filename = '{}_{:03d}.jpg'.format(code.lower(), nb)
+    raspistill.send_signal(signal.SIGUSR1)
+    savepath = '/media/STEREOMATON/'
+    if not os.path.isdir(savepath):
+        os.makedirs(savepath)
+    for _ in range(10):
+        sleep(0.1)
+        if os.path.isfile('/tmp/shot.jpg'):
+            shutil.move('/tmp/shot.jpg', savepath+filename)
+            break
+    with open(savepath+code.lower()+'.json', 'w') as f:
+        f.write('{"nb": ' + str(nb) + '}')
     print('Photo!', filename)
 
 def click_handler(x, y):
