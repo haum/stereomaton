@@ -174,7 +174,8 @@ def click_handler(x, y):
                 mode = MODE_PHOTO
                 for i in range(5, -1, -1):
                     draw_countdown(cr, i)
-                    sleep(1)
+                    if i != 0:
+                        sleep(1)
                 photo_nb += 1
                 photo(code, photo_nb)
     return True
