@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	  <meta charset="utf-8">
+	  <title>Stereomaton</title>
+	  <script>
+function search() {
+	var code = document.getElementById('code').value.toLowerCase().trim();
+	console.log("Evaluated code", code);
+
+	if (!code.match(/^[a-z]{8}$/)) {
+		document.write('Code invalide. <a href="">Réessayer</a>');
+		return false;
+	}
+
+	var xhr = null;
+	if (window.XMLHttpRequest || window.ActiveXObject) {
+		if (window.ActiveXObject) {
+			try {
+				xhr = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch(e) {
+				xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		} else {
+			xhr = new XMLHttpRequest(); 
+		}
+	} else {
+		document.write("Votre navigateur ne supporte pas la technologie utilisée pour récupérer vos images.");
+		return false;
+	}
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			json = JSON.parse(xhr.responseText);
+			newhtml = ''
+			for (var i = 1; i <= json.nb; i++) {
+				i2 = "00" + i;
+				i2 = i2.substr(i2.length-3);
+				newhtml += '<a href="'+code+'_'+i2+'.jpg" />Photo '+i+'<a><br/>';
+			}
+			newhtml += '<a href="">Autre code</a>';
+			document.write(newhtml)
+		} else if (xhr.readyState == 4) {
+			document.write('Aucune photo trouvée avec ce code. <a href="">Réessayer</a>');
+		}
+	};
+	xhr.open("GET", code+".json");
+	xhr.send(null);
+
+	return false;
+}
+	  </script>
+</head>
+<body>
+	<form onsubmit="return search()">
+		<input type="text" placeholder="Code" id="code" />
+		<input type="submit" />
+	</form>
+	<noscript>Cette page nécessite l'utilisation de javascript pour rechercher vos images.</noscript>
+</body>
+</html>
