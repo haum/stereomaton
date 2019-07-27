@@ -127,11 +127,19 @@ MODE_MENU = 0
 MODE_PHOTO = 1
 
 mode = MODE_MENU
+savepath = '/media/STEREOMATON/'
 photo_nb=0
 cfb = CairoFB()
 cr = cfb.cr()
-code = gen_code()
 raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -dec -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
+
+def gen_code_check():
+    while True:
+        newcode = gen_code()
+        if not os.path.exists(savepath+newcode+'_001.jpg'):
+            return newcode
+
+code = gen_code_check()
 
 def init_screen(cr, btn=True):
     clear(cr)
@@ -142,7 +150,6 @@ def init_screen(cr, btn=True):
 def photo(code, nb):
     filename = '{}_{:03d}.jpg'.format(code.lower(), nb)
     raspistill.send_signal(signal.SIGUSR1)
-    savepath = '/media/STEREOMATON/'
     if not os.path.isdir(savepath):
         os.makedirs(savepath)
     for _ in range(10):
@@ -166,7 +173,7 @@ def click_handler(x, y):
     elif mode == MODE_MENU:
         if y > 100:
             if x < 230:
-                code = gen_code()
+                code = gen_code_check()
                 text_code(cr, code)
                 photo_nb=0
                 draw_buttons(cr, photo_nb, True)
