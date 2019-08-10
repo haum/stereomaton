@@ -160,8 +160,8 @@ def photo(code, nb):
     with open(savepath+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
     print('Photo!', filename)
-    subprocess.run(['convert', '-resize', 'x320', '-crop', '50%x100%', savepath+filename, '/tmp/preview.jpg'])
-    subprocess.run('fbi /tmp/preview-0.jpg -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
+    subprocess.run(['convert', '-resize', 'x320', '-crop', '50%x100%+0+0', savepath+filename, '/tmp/preview.jpg'])
+    subprocess.run('fbi /tmp/preview.jpg -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
 
 def click_handler(x, y):
     global mode, photo_nb, code
