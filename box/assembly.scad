@@ -2,6 +2,7 @@ explode = 0.01;
 opacity = 0.5;
 show_door = true;
 show_box = true;
+show_deco = true;
 show_battery = false;
 show_stereopi = true;
 simplified_stereopi = true;
@@ -90,6 +91,12 @@ module stpiholder() {
             import("exported_parts/p_stpiholder.dxf");
 }
 
+module deco() {
+    rotate([90, 0, 0])
+        linear_extrude(height = 3)
+            import("exported_parts/p_deco.dxf");
+}
+
 module assembly() {
     if (show_box) {
         translate([0, 0, -explode]) bottom();
@@ -108,6 +115,8 @@ module assembly() {
     translate([0, 11 + explode, 62]) stpiholder();
     if (show_door)
         translate([0, 23, 30 * explode]) door();
+    if (show_deco)
+        translate([0, -29 - 2 * explode, 90]) deco();
 }
 
 module stereopi() {
@@ -141,8 +150,12 @@ module stereopi() {
 }
 
 module battery() {
-    translate([0,0,160])
-        cube([140, 75, 18], center=true);
+    translate([-10, 9, 169])
+        difference() {
+            cube([140, 75, 18], center=true);
+            translate([-55, -27, 0])
+                cylinder(r=3.5, h=20, center=true);
+        }
 }
 
 %color([0.85, 0.79, 0.69, opacity])
