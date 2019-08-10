@@ -131,7 +131,7 @@ savepath = '/media/STEREOMATON/'
 photo_nb=0
 cfb = CairoFB()
 cr = cfb.cr()
-raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -dec -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
+raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
 
 def gen_code_check():
     while True:
