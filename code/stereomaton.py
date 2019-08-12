@@ -133,6 +133,9 @@ cfb = CairoFB()
 cr = cfb.cr()
 raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
 
+hpar=30
+vpar=82
+
 def gen_code_check():
     while True:
         newcode = gen_code()
@@ -155,7 +158,11 @@ def photo(code, nb):
     for _ in range(10):
         sleep(0.1)
         if os.path.isfile('/tmp/shot.jpg'):
-            shutil.move('/tmp/shot.jpg', savepath+filename)
+            subprocess.run(['convert', '/tmp/shot.jpg',
+                            '(', '-clone', '0', '-crop', '{}x{}+{}+{}'.format(2592-hpar, 1944-vpar, hpar, 0), ')',
+                            '(', '-clone', '0', '-crop', '{}x{}+{}+{}'.format(2592-hpar, 1944-vpar, 2592, vpar), ')',
+                            '-delete', '0', '+append', savepath+filename])
+            os.remove('/tmp/shot.jpg')
             break
     with open(savepath+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
