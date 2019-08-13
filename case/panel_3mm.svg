@@ -40,17 +40,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.0265132"
-     inkscape:cx="1312.6557"
-     inkscape:cy="336.63458"
+     inkscape:zoom="1.4235874"
+     inkscape:cx="315.47753"
+     inkscape:cy="264.92638"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="2560"
+     inkscape:window-width="1280"
      inkscape:window-height="1376"
-     inkscape:window-x="0"
+     inkscape:window-x="1280"
      inkscape:window-y="27"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:showpageshadow="false"
      showborder="false"
      inkscape:snap-smooth-nodes="true"
@@ -97,9 +97,10 @@
        sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccsssssccssccssccssssssccssccssccsccccccssssssssccccccccccc" />
     <path
        style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.27478415;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;paint-order:normal"
-       d="m 7.9002929,238.99992 v 3.00035 H 2.999817 v 7.39955 H 0 v 8.20002 h 2.999817 v 7.80002 H 0 v 8.20002 h 2.999817 v 7.80005 H 0 v 8.20002 H 2.999817 V 297 H 117.00009 v -7.40005 h 2.99982 v -8.20002 h -2.99982 v -7.80005 h 2.99982 v -8.20002 h -2.99982 v -7.79952 h 2.99982 v -8.20002 h -2.99982 v -7.40005 h -4.89996 v -3.00035 h -8.20001 v 3.00035 h -7.800044 v -3.00035 h -8.200017 v 3.00035 h -7.799522 v -3.00035 H 71.90052 v 3.00035 h -7.800041 v -3.00035 h -8.200017 v 3.00035 h -7.800038 v -3.00035 h -8.200017 v 3.00035 h -7.800041 v -3.00035 H 23.90035 v 3.00035 h -7.800041 v -3.00035 z m 20.5997771,7.10036 h 2.999816 v 7.80002 H 28.50007 Z m 59.999953,0 h 2.999817 v 7.80002 H 88.500023 Z M 28.50007,262.09982 h 2.999816 v 7.80002 H 28.50007 Z m 59.999953,0 h 2.999817 v 7.80002 h -2.999817 z m -73.40017,28.90004 h 89.800207 v 3.00032 H 15.099853 Z"
+       d="m 7.9002929,238.99992 v 3.00035 H 2.999817 v 7.39955 H 0 v 8.20002 h 2.999817 v 7.80002 H 0 v 8.20002 h 2.999817 v 7.80005 H 0 v 8.20002 H 2.999817 V 297 H 117.00009 v -7.40005 h 2.99982 v -8.20002 h -2.99982 v -7.80005 h 2.99982 v -8.20002 h -2.99982 v -7.79952 h 2.99982 v -8.20002 h -2.99982 v -7.40005 h -4.89996 v -3.00035 h -8.20001 v 3.00035 h -7.800044 v -3.00035 h -8.200017 v 3.00035 h -7.799522 v -3.00035 H 71.90052 v 3.00035 h -7.800041 v -3.00035 h -8.200017 v 3.00035 h -7.800038 v -3.00035 h -8.200017 v 3.00035 h -7.800041 v -3.00035 H 23.90035 v 3.00035 h -7.800041 v -3.00035 z m 20.5997771,7.10036 h 2.999816 v 7.80002 H 28.50007 Z m 59.999953,0 h 2.999817 v 7.80002 H 88.500023 Z M 28.50007,262.09982 h 2.999816 v 7.80002 H 28.50007 Z m 59.999953,0 h 2.999817 v 7.80002 H 88.500023 Z M 15,290.99986 h 90 v 3.00032 H 15 Z"
        id="rect1740"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" />
     <path
        style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.27478415;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;paint-order:normal"
        d="M 124.99982,240.00016 V 241.4 H 122 v 8.2 h 2.99982 v 7.80006 H 122 v 8.2 h 2.99982 v 7.80006 H 122 v 8.2 h 2.99982 v 7.39963 h 4.90031 v 3.00034 h 8.20001 v -3.00034 h 7.80005 v 3.00034 h 8.2 v -3.00034 h 7.80006 v 3.00034 h 8.2 v -3.00034 h 7.80005 v 3.00034 h 8.20001 v -3.00034 h 7.80005 v 3.00034 h 8.2 v -3.00034 h 7.79954 v 3.00034 h 8.2 v -3.00034 h 7.80006 v 3.00034 h 8.2 v -3.00034 h 4.90014 v -7.39963 h 2.99981 v -8.2 h -2.99981 v -7.80006 h 2.99981 v -8.2 H 239.0001 V 249.6 h 2.99981 v -8.2 h -2.99981 v -1.39984 z"
