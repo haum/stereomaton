@@ -158,17 +158,16 @@ def photo(code, nb):
     for _ in range(10):
         sleep(0.1)
         if os.path.isfile('/tmp/shot.jpg'):
-            subprocess.run(['convert', '/tmp/shot.jpg',
-                            '(', '-clone', '0', '-crop', '{}x{}+{}+{}'.format(2592-hpar, 1944-vpar, hpar, 0), ')',
-                            '(', '-clone', '0', '-crop', '{}x{}+{}+{}'.format(2592-hpar, 1944-vpar, 2592, vpar), ')',
-                            '-delete', '0', '+append', savepath+filename])
+            subprocess.run('convert -crop 50%x100% /tmp/shot.jpg /tmp/split.jpg'.split(' '))
+            mydir, _ = os.path.split(os.path.abspath(__file__))
+            subprocess.run(['nona', '-o', '/tmp/out_', mydir+'/calib.pto'])
+            subprocess.run(('montage -geometry +0+0 /tmp/out_0000.tif /tmp/out_0001.tif '+savepath+filename).split(' '))
             os.remove('/tmp/shot.jpg')
             break
     with open(savepath+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
     print('Photo!', filename)
-    subprocess.run(['convert', '-resize', 'x320', '-crop', '50%x100%+0+0', savepath+filename, '/tmp/preview.jpg'])
-    subprocess.run('fbi /tmp/preview.jpg -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
+    subprocess.run('fbi /tmp/out_0000.tif -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
 
 def click_handler(x, y):
     global mode, photo_nb, code

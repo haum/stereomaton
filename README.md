@@ -17,4 +17,4 @@ The stereomaton is based on [StereoPi](http://stereopi.com/) hardware (board + t
 with SLP variant image of Raspbian (version 0.2.3 used)
 with a 3.5" SPI [LCD display](http://www.lcdwiki.com/3.5inch_RPi_Display) using fb_ili9486 driver.
 
-Note that LCD driver and its configuration, touchscreen driver, imagemagick suite, python as well as evdev and pycairo modules are supposed installed on the system for the code present in this repository.
+Note that LCD driver and its configuration, touchscreen driver, imagemagick suite, hugin-tools, python as well as evdev and pycairo modules are supposed installed on the system for the code present in this repository.
