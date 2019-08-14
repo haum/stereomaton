@@ -117,7 +117,14 @@ def draw_countdown(cr, nb):
   cr.set_font_size(160)
   txt = str(nb)
   if nb <= 0:
-      txt = ':-)'
+      if nb == 0:
+          txt = ':-)'
+      elif nb == -1:
+          txt = '.'
+      elif nb == -2:
+          txt = '..'
+      elif nb == -3:
+          txt = '...'
   cr.move_to((480-cr.text_extents(txt).width)/2, 250)
   cr.show_text(txt)
 
@@ -158,9 +165,12 @@ def photo(code, nb):
     for _ in range(10):
         sleep(0.1)
         if os.path.isfile('/tmp/shot.jpg'):
+            draw_countdown(cr, -3)
             subprocess.run('convert -crop 50%x100% /tmp/shot.jpg /tmp/split.jpg'.split(' '))
+            draw_countdown(cr, -2)
             mydir, _ = os.path.split(os.path.abspath(__file__))
             subprocess.run(['nona', '-o', '/tmp/out_', mydir+'/calib.pto'])
+            draw_countdown(cr, -1)
             subprocess.run(('montage -geometry +0+0 /tmp/out_0000.tif /tmp/out_0001.tif '+savepath+filename).split(' '))
             os.remove('/tmp/shot.jpg')
             break
