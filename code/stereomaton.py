@@ -138,7 +138,7 @@ savepath = '/media/STEREOMATON/'
 photo_nb=0
 cfb = CairoFB()
 cr = cfb.cr()
-raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
+raspistill = None
 
 hpar=30
 vpar=82
@@ -157,30 +157,35 @@ def init_screen(cr, btn=True):
     text_code(cr, code)
     draw_buttons(cr, photo_nb, btn)
 
-def photo(code, nb):
-    filename = '{}_{:03d}.jpg'.format(code.lower(), nb)
+def shot():
+    if os.path.isfile('/tmp/shot.jpg'):
+        os.remove('/tmp/shot.jpg')
     raspistill.send_signal(signal.SIGUSR1)
-    if not os.path.isdir(savepath):
-        os.makedirs(savepath)
     for _ in range(10):
         sleep(0.1)
         if os.path.isfile('/tmp/shot.jpg'):
-            draw_countdown(cr, -3)
-            subprocess.run('convert -crop 50%x100% /tmp/shot.jpg /tmp/split.jpg'.split(' '))
-            draw_countdown(cr, -2)
-            mydir, _ = os.path.split(os.path.abspath(__file__))
-            subprocess.run(['nona', '-o', '/tmp/out_', mydir+'/calib.pto'])
-            draw_countdown(cr, -1)
-            subprocess.run(('montage -geometry +0+0 /tmp/out_0000.tif /tmp/out_0001.tif '+savepath+filename).split(' '))
-            os.remove('/tmp/shot.jpg')
             break
+
+def photo_compute(code, nb):
+    filename = '{}_{:03d}.jpg'.format(code.lower(), nb)
+    if not os.path.isdir(savepath):
+        os.makedirs(savepath)
+    if os.path.isfile('/tmp/shot.jpg'):
+        draw_countdown(cr, -3)
+        subprocess.run('convert -crop 50%x100% /tmp/shot.jpg /tmp/split.jpg'.split(' '))
+        draw_countdown(cr, -2)
+        mydir, _ = os.path.split(os.path.abspath(__file__))
+        subprocess.run(['nona', '-o', '/tmp/out_', mydir+'/calib.pto'])
+        draw_countdown(cr, -1)
+        subprocess.run(('montage -geometry +0+0 /tmp/out_0000.tif /tmp/out_0001.tif '+savepath+filename).split(' '))
+        os.remove('/tmp/shot.jpg')
     with open(savepath+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
     print('Photo!', filename)
     subprocess.run('fbi /tmp/out_0000.tif -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
 
 def click_handler(x, y):
-    global mode, photo_nb, code
+    global mode, photo_nb, code, raspistill
     if mode == MODE_PHOTO:
         init_screen(cr, False)
         sleep(2)
@@ -195,12 +200,17 @@ def click_handler(x, y):
                 draw_buttons(cr, photo_nb, True)
             elif x > 250:
                 mode = MODE_PHOTO
+                subprocess.run(['killall', 'raspivid'])
+                raspistill = subprocess.Popen('raspistill -n -s -t 0 -3d sbs -vf -hf -w 5184 -h 1944 -o /tmp/shot.jpg'.split(' '))
                 for i in range(5, -1, -1):
                     draw_countdown(cr, i)
                     if i != 0:
                         sleep(1)
                 photo_nb += 1
-                photo(code, photo_nb)
+                shot()
+                raspistill.kill()
+                raspistill = None
+                photo_compute(code, photo_nb)
     return True
 
 init_screen(cr)
