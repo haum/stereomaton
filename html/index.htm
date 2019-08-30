@@ -65,7 +65,7 @@ function search() {
 			for (var i = 1; i <= json.nb; i++) {
 				i2 = "00" + i;
 				i2 = i2.substr(i2.length-3);
-				newhtml += '<a href="'+code+'_'+i2+'.jpg" />Photo '+i+'<a><br/>';
+				newhtml += '<a href="'+code+'_'+i2+'.jpg" /><img src="'+code+'_'+i2+'_thumb.jpg"/><br/>Photo '+i+'<a><br/>';
 			}
 			document.getElementById('results').innerHTML = newhtml
 		} else if (xhr.readyState == 4) {
