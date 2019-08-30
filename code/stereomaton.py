@@ -205,6 +205,9 @@ def photo_compute(code, nb):
         imglc = cv2.warpPerspective(imgl, Hl, sz)
         imgrc = cv2.warpPerspective(imgr, Hr, sz)
 
+        imglc = cv2.resize(imglc, nsz(sz, 1080))
+        imgrc = cv2.resize(imgrc, nsz(sz, 1080))
+
         draw_countdown(cr, -2)
         imglc = simplest_cb(imglc, 1)
         imgrc = simplest_cb(imgrc, 1)
