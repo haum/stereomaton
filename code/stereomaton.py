@@ -190,11 +190,17 @@ def photo_compute(code, nb):
                        ( 0.00000000e+00,  0.00000000e+00,  1.00000000e+00)))
 
         imglc = cv2.warpPerspective(imgl, Hl, sz)
-        w = np.hstack((
-            imglc,
-            cv2.warpPerspective(imgr, Hr, sz)
-        ))
-        cv2.imwrite(savepath+filename, w)
+        imgrc = cv2.warpPerspective(imgr, Hr, sz)
+
+        clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(64, 64))
+        labl = cv2.cvtColor(imglc, cv2.COLOR_BGR2LAB)
+        labr = cv2.cvtColor(imgrc, cv2.COLOR_BGR2LAB)
+        labl[:,0] = clahe.apply(labl[:,0])
+        labr[:,0] = clahe.apply(labr[:,0])
+        imglc = cv2.cvtColor(labl, cv2.COLOR_LAB2BGR)
+        imgrc = cv2.cvtColor(labr, cv2.COLOR_LAB2BGR)
+
+        cv2.imwrite(savepath+filename, np.hstack((imglc, imgrc)))
 
         thumb = cv2.resize(imglc, nsz(sz, 480))
         cv2.imwrite('/tmp/thumb.jpg', thumb)
