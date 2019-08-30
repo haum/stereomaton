@@ -4,8 +4,10 @@ import os, shutil
 import subprocess, signal
 import cairo
 import evdev
+import cv2
 from random import choice
 from time import sleep
+import numpy as np
 
 class CairoFB:
     def __init__(self, fb='/dev/fb1', sz=(480, 320)):
@@ -167,22 +169,40 @@ def shot():
             break
 
 def photo_compute(code, nb):
+    def nsz(sz, h):
+        return (int(sz[0]/sz[1]*h), h)
     filename = '{}_{:03d}.jpg'.format(code.lower(), nb)
     if not os.path.isdir(savepath):
         os.makedirs(savepath)
     if os.path.isfile('/tmp/shot.jpg'):
         draw_countdown(cr, -3)
-        subprocess.run('convert -crop 50%x100% /tmp/shot.jpg /tmp/split.jpg'.split(' '))
-        draw_countdown(cr, -2)
-        mydir, _ = os.path.split(os.path.abspath(__file__))
-        subprocess.run(['nona', '-o', '/tmp/out_', mydir+'/calib.pto'])
-        draw_countdown(cr, -1)
-        subprocess.run(('montage -geometry +0+0 /tmp/out_0000.tif /tmp/out_0001.tif '+savepath+filename).split(' '))
-        os.remove('/tmp/shot.jpg')
+        img = cv2.imread('/tmp/shot.jpg')
+        imgl = img[:, 0:int(img.shape[1]/2)]
+        imgr = img[:, int(img.shape[1]/2):]
+
+        sz = (2500, 1853)
+        Hl = np.array((( 9.90540375e-01, -1.57071139e-02, -5.17682426e+01),
+                       ( 6.88042594e-04,  9.78034960e-01, -1.05711222e+01),
+                       ( 8.08043438e-07, -1.27680590e-05,  1.00000000e+00)))
+        Hr = np.array((( 1.00131686e+00,  2.92492676e-03, -9.97647095e+00),
+                       (-2.92492676e-03,  1.00131686e+00, -7.91296692e+01),
+                       ( 0.00000000e+00,  0.00000000e+00,  1.00000000e+00)))
+
+        imglc = cv2.warpPerspective(imgl, Hl, sz)
+        w = np.hstack((
+            imglc,
+            cv2.warpPerspective(imgr, Hr, sz)
+        ))
+        cv2.imwrite(savepath+filename, w)
+
+        thumb = cv2.resize(imglc, nsz(sz, 480))
+        cv2.imwrite('/tmp/thumb.jpg', thumb)
+
+        shutil.move('/tmp/shot.jpg', '/tmp/oldshot.jpg')
     with open(savepath+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
     print('Photo!', filename)
-    subprocess.run('fbi /tmp/out_0000.tif -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
+    subprocess.run('fbi /tmp/thumb.jpg -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
 
 def click_handler(x, y):
     global mode, photo_nb, code, raspistill
