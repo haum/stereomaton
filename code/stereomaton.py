@@ -154,6 +154,7 @@ photo_nb=0
 cfb = CairoFB()
 cr = cfb.cr()
 raspistill = None
+mode_public = False
 
 hpar=30
 vpar=82
@@ -169,7 +170,10 @@ code = gen_code_check()
 def init_screen(cr, btn=True):
     clear(cr)
     text_code_explaination(cr)
-    text_code(cr, code)
+    if mode_public:
+        text_code(cr, 'PUBLIC')
+    else:
+        text_code(cr, code)
     draw_buttons(cr, photo_nb, btn)
 
 def shot():
@@ -185,12 +189,15 @@ def photo_compute(code, nb):
     def nsz(sz, h):
         return (int(sz[0]/sz[1]*h), h)
     filename = 'pictures/{}_{:03d}.jpg'.format(code.lower(), nb)
+    if mode_public:
+        filename = 'public/{}_{:03d}.jpg'.format(code.lower(), nb)
     thumbname = 'thumbs/{}_{:03d}_thumb.jpg'.format(code.lower(), nb)
     if not os.path.isdir(savepath):
         os.makedirs(savepath)
         os.makedirs(savepath+'pictures')
         os.makedirs(savepath+'json')
         os.makedirs(savepath+'thumbs')
+        os.makedirs(savepath+'public')
     if os.path.isfile('/tmp/shot.jpg'):
         draw_countdown(cr, -3)
         img = cv2.imread('/tmp/shot.jpg')
@@ -232,6 +239,10 @@ def photo_compute(code, nb):
         thumb = cv2.resize(thumb, nsz(sz, 240))
         cv2.imwrite(savepath+thumbname, thumb)
 
+        if mode_public:
+            with open(savepath+'public/list.txt', 'a') as lst:
+                lst.write('{}_{:03d}\n'.format(code.lower(), nb))
+
         shutil.move('/tmp/shot.jpg', '/tmp/oldshot.jpg')
     with open(savepath+'json/'+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
@@ -239,7 +250,7 @@ def photo_compute(code, nb):
     subprocess.run('fbi /tmp/thumb.jpg -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
 
 def click_handler(x, y):
-    global mode, photo_nb, code, raspistill
+    global mode, photo_nb, code, raspistill, mode_public
     if mode == MODE_PHOTO:
         init_screen(cr, False)
         sleep(2)
@@ -248,6 +259,7 @@ def click_handler(x, y):
     elif mode == MODE_MENU:
         if y > 100:
             if x < 230:
+                mode_public = False
                 code = gen_code_check()
                 text_code(cr, code)
                 photo_nb=0
@@ -265,6 +277,13 @@ def click_handler(x, y):
                 raspistill.kill()
                 raspistill = None
                 photo_compute(code, photo_nb)
+        elif not mode_public:
+            mode_public = True
+            code = gen_code_check()
+            text_code(cr, 'PUBLIC')
+            photo_nb=0
+            draw_buttons(cr, photo_nb, True)
+
     return True
 
 init_screen(cr)
