@@ -34,10 +34,48 @@ a {
 }
 	</style>
 	<script>
+function code_public() {
+	var xhr = null;
+	if (window.XMLHttpRequest || window.ActiveXObject) {
+		if (window.ActiveXObject) {
+			try {
+				xhr = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch(e) {
+				xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		} else {
+			xhr = new XMLHttpRequest();
+		}
+	} else {
+		document.getElementById('results').innerHTML = "Votre navigateur ne supporte pas la technologie utilisée pour récupérer les images.";
+		return false;
+	}
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			text = xhr.responseText;
+			lines = text.split("\n");
+			newhtml = '';
+			for (i = 0; i < lines.length; i++) {
+				code = lines[i];
+				if (code == '') continue;
+				newhtml += '<a href="public/'+code+'.jpg" /><img src="thumbs/'+code+'_thumb.jpg"/><br/>Photo '+i+'<a><br/>';
+				console.log(lines[i]);
+			}
+			document.getElementById('results').innerHTML = newhtml
+		} else if (xhr.readyState == 4) {
+			document.getElementById('results').innerHTML = 'Erreur de chargement des images publiques.';
+		}
+	};
+	xhr.open("GET", "public/list.txt");
+	xhr.send(null);
+	return false;
+}
 function search() {
 	var code = document.getElementById('code').value.toLowerCase().trim();
 	console.log("Evaluated code", code);
 
+	if (code == "public")
+		return code_public();
 	if (!code.match(/^[a-z]{8}$/)) {
 		document.getElementById('results').innerHTML = 'Code <i>' + code + '</i> invalide.';
 		return false;
