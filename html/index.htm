@@ -65,14 +65,14 @@ function search() {
 			for (var i = 1; i <= json.nb; i++) {
 				i2 = "00" + i;
 				i2 = i2.substr(i2.length-3);
-				newhtml += '<a href="'+code+'_'+i2+'.jpg" /><img src="'+code+'_'+i2+'_thumb.jpg"/><br/>Photo '+i+'<a><br/>';
+				newhtml += '<a href="pictures/'+code+'_'+i2+'.jpg" /><img src="thumbs/'+code+'_'+i2+'_thumb.jpg"/><br/>Photo '+i+'<a><br/>';
 			}
 			document.getElementById('results').innerHTML = newhtml
 		} else if (xhr.readyState == 4) {
 			document.getElementById('results').innerHTML = 'Aucune photo trouvée avec le code <i>' + code + '</i>.';
 		}
 	};
-	xhr.open("GET", code+".json");
+	xhr.open("GET", "json/"+code+".json");
 	xhr.send(null);
 
 	return false;

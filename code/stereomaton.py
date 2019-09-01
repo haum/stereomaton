@@ -161,7 +161,7 @@ vpar=82
 def gen_code_check():
     while True:
         newcode = gen_code()
-        if not os.path.exists(savepath+newcode+'_001.jpg'):
+        if not os.path.exists(savepath+'json/'+newcode+'.json'):
             return newcode
 
 code = gen_code_check()
@@ -184,10 +184,13 @@ def shot():
 def photo_compute(code, nb):
     def nsz(sz, h):
         return (int(sz[0]/sz[1]*h), h)
-    filename = '{}_{:03d}.jpg'.format(code.lower(), nb)
-    thumbname = '{}_{:03d}_thumb.jpg'.format(code.lower(), nb)
+    filename = 'pictures/{}_{:03d}.jpg'.format(code.lower(), nb)
+    thumbname = 'thumbs/{}_{:03d}_thumb.jpg'.format(code.lower(), nb)
     if not os.path.isdir(savepath):
         os.makedirs(savepath)
+        os.makedirs(savepath+'pictures')
+        os.makedirs(savepath+'json')
+        os.makedirs(savepath+'thumbs')
     if os.path.isfile('/tmp/shot.jpg'):
         draw_countdown(cr, -3)
         img = cv2.imread('/tmp/shot.jpg')
@@ -230,7 +233,7 @@ def photo_compute(code, nb):
         cv2.imwrite(savepath+thumbname, thumb)
 
         shutil.move('/tmp/shot.jpg', '/tmp/oldshot.jpg')
-    with open(savepath+code.lower()+'.json', 'w') as f:
+    with open(savepath+'json/'+code.lower()+'.json', 'w') as f:
         f.write('{"nb": ' + str(nb) + '}')
     print('Photo!', filename)
     subprocess.run('fbi /tmp/thumb.jpg -d /dev/fb1 -T 1 --noverbose -a'.split(' '))
