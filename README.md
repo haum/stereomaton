@@ -1,10 +1,18 @@
 # Stereomaton
 
-It is a stereoscopic (3D) digital photo cabin
+It is an itinerant self-service stereoscopic (3D) photo automaton.
 
 ## Status
 
-Work in progress
+Working prototype
+
+It was tested in a festival and it worked wonderfully.
+
+## Related links
+
+Presentation of the project: https://www.crowdsupply.com/virt2real/stereopi/updates/field-report-stereomaton
+
+First photos in the festival: https://photos.haum.org/albums/teriaki2019/
 
 ## Overview
 
