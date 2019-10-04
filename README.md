@@ -14,6 +14,8 @@ Presentation of the project: https://www.crowdsupply.com/virt2real/stereopi/upda
 
 First photos in the festival: https://photos.haum.org/albums/teriaki2019/
 
+Presentation of the case: https://www.crowdsupply.com/virt2real/stereopi/updates/field-report-follow-up-making-a-case-for-stereomaton
+
 ## Overview
 
 Users can use the stereomaton to take photographs of themselves and view them in 3D thanks to appropriate equipment (3D display, cardboard, vr headset, etc.) of their own.
