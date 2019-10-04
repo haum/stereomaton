@@ -1,0 +1,13 @@
+network={
+	ssid="SSID1"
+	#psk="0123456789"
+	psk=babd14ff4ab227205d121dbfb9369b3d33c94f5c7e0ebcbcc614be0136e252b5
+	priority=1
+}
+network={
+	ssid="SSID2"
+	#psk="0123456789"
+	psk=b67e79e0a376b455989b2351852599cc4b55e995d09b6920a0e9a27390b695fd
+	priority=2
+}
+
